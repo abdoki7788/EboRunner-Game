@@ -18,11 +18,14 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0
         self.index = 0
         self.player_walk = [pygame.image.load('graphics/player/player_walk_1.png'), pygame.image.load('graphics/player/player_walk_2.png')]
+        self.jump_sound = pygame.mixer.Sound('./audio/jump.mp3')
 
     def player_input(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and self.rect.bottom == 300:
             self.gravity = -18
+            self.jump_sound.set_volume(0.3)
+            self.jump_sound.play()
     def apply_gravity(self):
         self.gravity += 0.8
         self.rect.y += self.gravity
@@ -113,6 +116,10 @@ player_stand_rectangle = player_stand_transform.get_rect(center=(400, 150))
 
 score = 0
 
+lose_sound = pygame.mixer.Sound('./audio/lose.wav')
+bg_sound = pygame.mixer.Sound('./audio/music.wav')
+bg_sound.set_volume(0.5)
+
 obstacle_rect_list = []
 
 OBSTACLE_TIMER = pygame.USEREVENT + 1
@@ -130,6 +137,7 @@ while True:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 start_time = pygame.time.get_ticks()
                 game_active = True
+                bg_sound.play(loops=-1)
 
     if game_active:
         SCREEN.blit(sky_surface, (0, 0))
@@ -142,6 +150,8 @@ while True:
         player.update()
 
         if pygame.sprite.spritecollide(player.sprite, obstacle, False):
+            bg_sound.stop()
+            lose_sound.play()
             game_active = False
             obstacle.empty()
     else:
