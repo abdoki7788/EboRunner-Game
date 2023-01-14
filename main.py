@@ -125,6 +125,8 @@ obstacle_rect_list = []
 OBSTACLE_TIMER = pygame.USEREVENT + 1
 pygame.time.set_timer(OBSTACLE_TIMER, 1400)
 
+pygame.display.set_icon(player_stand)
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
