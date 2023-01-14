@@ -13,12 +13,12 @@ SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('./graphics/player/player_walk_1.png').convert_alpha()
+        self.image = pygame.image.load('./assets/graphics/player/player_walk_1.png').convert_alpha()
         self.rect = self.image.get_rect(midbottom=(80, 300))
         self.gravity = 0
         self.index = 0
-        self.player_walk = [pygame.image.load('graphics/player/player_walk_1.png'), pygame.image.load('graphics/player/player_walk_2.png')]
-        self.jump_sound = pygame.mixer.Sound('./audio/jump.mp3')
+        self.player_walk = [pygame.image.load('./assets/graphics/player/player_walk_1.png'), pygame.image.load('assets/graphics/player/player_walk_2.png')]
+        self.jump_sound = pygame.mixer.Sound('./assets/audio/jump.mp3')
 
     def player_input(self):
         keys = pygame.key.get_pressed()
@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = 300
     def animate_player(self):
         if self.rect.bottom < 300:
-            self.image = pygame.image.load('graphics/player/jump.png').convert_alpha()
+            self.image = pygame.image.load('assets/graphics/player/jump.png').convert_alpha()
         else:
             self.index += 0.1
             if self.index >= 2: self.index = 0
@@ -49,13 +49,13 @@ class Player(pygame.sprite.Sprite):
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, type):
         if type == 'fly':
-            fly_1 = pygame.image.load('graphics/fly/fly1.png').convert_alpha()
-            fly_2 = pygame.image.load('graphics/fly/fly2.png').convert_alpha()
+            fly_1 = pygame.image.load('assets/graphics/fly/fly1.png').convert_alpha()
+            fly_2 = pygame.image.load('assets/graphics/fly/fly2.png').convert_alpha()
             self.surfaces = [fly_1, fly_2]
             y_pos = 200
         elif type == 'snail':
-            snail_1 = pygame.image.load('graphics/snail/snail1.png').convert_alpha()
-            snail_2 = pygame.image.load('graphics/snail/snail2.png').convert_alpha()
+            snail_1 = pygame.image.load('assets/graphics/snail/snail1.png').convert_alpha()
+            snail_2 = pygame.image.load('assets/graphics/snail/snail2.png').convert_alpha()
             self.surfaces = [snail_1, snail_2]
             y_pos = 300
         
@@ -80,16 +80,16 @@ class Obstacle(pygame.sprite.Sprite):
         return super().update(*args, **kwargs)
 
 clock = pygame.time.Clock()
-sky_surface = pygame.image.load('graphics/Sky.png').convert_alpha()
-ground_surface = pygame.image.load('graphics/ground.png').convert_alpha()
+sky_surface = pygame.image.load('assets/graphics/Sky.png').convert_alpha()
+ground_surface = pygame.image.load('assets/graphics/ground.png').convert_alpha()
 
 game_active = False
 
-score_font = pygame.font.Font('font/Pixeltype.ttf', 40)
+score_font = pygame.font.Font('assets/font/Pixeltype.ttf', 40)
 title_text = score_font.render('Abdolrahman Runner !', False, (111, 196, 169))
 title_rectangle = title_text.get_rect(center=(400, 40))
 
-start_font = pygame.font.Font('font/Pixeltype.ttf', 50)
+start_font = pygame.font.Font('assets/font/Pixeltype.ttf', 50)
 start_text = start_font.render('Press Space to Start !', False, (60, 60, 60))
 start_rectangle = start_text.get_rect(center=(400, 350))
 
@@ -110,14 +110,14 @@ player.add(Player())
 
 obstacle = pygame.sprite.Group()
 
-player_stand = pygame.image.load('graphics/player/player_stand.png').convert_alpha()
+player_stand = pygame.image.load('assets/graphics/player/player_stand.png').convert_alpha()
 player_stand_transform = pygame.transform.scale2x(player_stand)
 player_stand_rectangle = player_stand_transform.get_rect(center=(400, 150))
 
 score = 0
 
-lose_sound = pygame.mixer.Sound('./audio/lose.wav')
-bg_sound = pygame.mixer.Sound('./audio/music.wav')
+lose_sound = pygame.mixer.Sound('./assets/audio/lose.wav')
+bg_sound = pygame.mixer.Sound('./assets/audio/music.wav')
 bg_sound.set_volume(0.5)
 
 obstacle_rect_list = []
